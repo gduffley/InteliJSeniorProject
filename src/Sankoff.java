@@ -103,6 +103,7 @@ public class Sankoff {
                     String layer = line.substring(curOpen, curClosed + 1); //creates layer, which is the most interior bracket set
                     int numberofGenesInLayer = numberOfSequences(layer); //finds if there is 1 or 2 genes in the layer
                     PhyloTreeNode newNode = null;
+                    //test
 
                     //if there are 2 nodes in the layer, we are going to combine them and create a parent node
                     //if the root has < 2 children, just attach this new node
