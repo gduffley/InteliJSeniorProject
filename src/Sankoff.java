@@ -1,10 +1,7 @@
  /**
  * Created by Gordon on 2/11/14.
  */
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 /* outline
@@ -103,8 +100,6 @@ public class Sankoff {
                     String layer = line.substring(curOpen, curClosed + 1); //creates layer, which is the most interior bracket set
                     int numberofGenesInLayer = numberOfSequences(layer); //finds if there is 1 or 2 genes in the layer
                     PhyloTreeNode newNode = null;
-                    int test;
-                    //test
 
                     //if there are 2 nodes in the layer, we are going to combine them and create a parent node
                     //if the root has < 2 children, just attach this new node
@@ -315,17 +310,53 @@ public class Sankoff {
         }
         node.setSequence(newSeq);
     }
+    public static void rnaFold(PhyloTree tree){
+        Runtime rt = Runtime.getRuntime();
+        Queue<PhyloTreeNode> q = new LinkedList<PhyloTreeNode>();
+        q.add(tree.getRoot());
+        PhyloTreeNode cur;
+        while(! q.isEmpty()){
+            cur = q.poll();
+            for(int i = 0; i < cur.getChildren().size(); i++){
+                q.add(cur.getChildren().get(i));
+            }
+            String command = "C:\\Users\\Gordon\\Dropbox\\Winter2014\\Comp401\\ViennaRNAPackage\\rnaFold.exe ";
+            try {
+                Process pr = rt.exec(command);
+                Thread.sleep(5000);
+                OutputStream osr = pr.getOutputStream();
+                BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(osr));
+                bw.write(cur.getSequence() + "\n");
+                Thread.sleep(5000);
+                int line;
+                BufferedReader input =
+                        new BufferedReader(new InputStreamReader(pr.getInputStream()));
+                while ((line = input.read()) != -1) {
+                    //cur.setFolding(line);
+                    System.out.println((char) line);
+
+                }
+                System.out.print(cur.getName() + "  " + cur.getFolding());
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
 
     public static void main(String Args[]){
         try {
             stockholmParse(Args[0]);
             phyloTreeCreator(Args[1]);
-            printTree(tree);
+            //printTree(tree);
             sequenceMod();
             System.out.println(bottomUp(tree.getRoot()));
-            printTree(tree);
+            //printTree(tree);
             topDown(tree.getRoot());
-            printTree(tree);
+            //printTree(tree);
+            rnaFold(tree);
 
 
         } catch (IOException e) {
