@@ -8,6 +8,7 @@ public class PhyloTreeNode {
     private String name;
     private PhyloTreeNode parent;
     private ArrayList<PhyloTreeNode> children = new ArrayList<PhyloTreeNode>();
+    private String folding;
 
     public PhyloTreeNode(String name, String sequence){
         this.name = name;
@@ -47,5 +48,8 @@ public class PhyloTreeNode {
     public PhyloTreeNode getParent() {return this.parent;}
 
     public ArrayList<PhyloTreeNode> getChildren() {return this.children;}
+
+    public void setFolding(String folding){this.folding = folding;}
+    public String getFolding() {return this.folding;}
 }
 
