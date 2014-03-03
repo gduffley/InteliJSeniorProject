@@ -4,6 +4,7 @@
 
 public class PhyloTree {
     private PhyloTreeNode root;
+    private String consensusSequence;
 
 
     public PhyloTree(String name, String sequence){
@@ -17,6 +18,8 @@ public class PhyloTree {
     public PhyloTreeNode getRoot(){
         return this.root;
     }
+    public void setConsensusSequence(String a) {this.consensusSequence = a;}
+    public String getConsensusSequence()  {return this.consensusSequence; }
 
 
 }

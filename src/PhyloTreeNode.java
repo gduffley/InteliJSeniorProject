@@ -9,6 +9,8 @@ public class PhyloTreeNode {
     private PhyloTreeNode parent;
     private ArrayList<PhyloTreeNode> children = new ArrayList<PhyloTreeNode>();
     private String folding;
+    private double energy;
+    private int distanceFromConsensus;
 
     public PhyloTreeNode(String name, String sequence){
         this.name = name;
@@ -51,5 +53,9 @@ public class PhyloTreeNode {
 
     public void setFolding(String folding){this.folding = folding;}
     public String getFolding() {return this.folding;}
+    public void setEnergy(double energy){this.energy = energy;}
+    public double getEnergy(){return this.energy;}
+    public void setDistanceFromConsensus(int a){this.distanceFromConsensus = a;}
+    public int getDistanceFromConsensus(){ return this.distanceFromConsensus;}
 }
 

@@ -85,6 +85,7 @@ public class Sankoff {
         int curClosed;
         tree = new PhyloTree(alphabet.substring(alphCounter, alphCounter + 1), "tbd"); //creates root with name A
         alphCounter++;
+        tree.setConsensusSequence(ss_Cons);
         try{
             FileReader fileReader = new FileReader(treeFile);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -310,8 +311,18 @@ public class Sankoff {
         }
         node.setSequence(newSeq);
     }
-    public static void rnaFold(PhyloTree tree){
+    public static void rnaFold(PhyloTree tree) throws IOException {
+        String command = "C:\\Users\\Gordon\\Dropbox\\Winter2014\\Comp401\\ViennaRNAPackage\\rnaFold.exe";
+        BufferedReader inp;
+        BufferedWriter out;
         Runtime rt = Runtime.getRuntime();
+        ProcessBuilder builder = new ProcessBuilder(command);
+        builder.redirectErrorStream(true);
+        Process p = builder.start();
+        InputStream ips = p.getInputStream();
+        OutputStream ops = p.getOutputStream();
+        inp = new BufferedReader(new InputStreamReader(ips));
+        out = new BufferedWriter(new OutputStreamWriter(ops));
         Queue<PhyloTreeNode> q = new LinkedList<PhyloTreeNode>();
         q.add(tree.getRoot());
         PhyloTreeNode cur;
@@ -320,29 +331,57 @@ public class Sankoff {
             for(int i = 0; i < cur.getChildren().size(); i++){
                 q.add(cur.getChildren().get(i));
             }
-            String command = "C:\\Users\\Gordon\\Dropbox\\Winter2014\\Comp401\\ViennaRNAPackage\\rnaFold.exe ";
-            try {
-                Process pr = rt.exec(command);
-                Thread.sleep(5000);
-                OutputStream osr = pr.getOutputStream();
-                BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(osr));
-                bw.write(cur.getSequence() + "\n");
-                Thread.sleep(5000);
-                int line;
-                BufferedReader input =
-                        new BufferedReader(new InputStreamReader(pr.getInputStream()));
-                while ((line = input.read()) != -1) {
-                    //cur.setFolding(line);
-                    System.out.println((char) line);
-
+            String seq = cur.getSequence();
+            seq = seq.replace(".", "");
+            seq = seq.concat("\n");
+            out.write(seq);
+            out.flush();
+            String line;
+            int i = 0;
+            while(i < 2 && ( line = inp.readLine()) != null){
+                if(i == 1){
+                    String[] split = line.split(" ");
+                    cur.setFolding(split[0]);
+                    split[2] = split[2].replace(")", "");
+                    cur.setEnergy(Double.parseDouble(split[2]));
                 }
-                System.out.print(cur.getName() + "  " + cur.getFolding());
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                i++;
+            }
+            System.out.println(cur.getFolding() + "   " + Double.toString(cur.getEnergy()));
+        }
+        p.destroy();
+
+    }
+    public static void calcDistancesFromConsensus(PhyloTree tree) throws IOException {
+        String command = "C:\\Users\\Gordon\\Dropbox\\Winter2014\\Comp401\\ViennaRNAPackage\\rnaDistance.exe";
+        BufferedReader inp;
+        BufferedWriter out;
+        Runtime rt = Runtime.getRuntime();
+        ProcessBuilder builder = new ProcessBuilder(command);
+        builder.redirectErrorStream(true);
+        Process p = builder.start();
+        InputStream ips = p.getInputStream();
+        OutputStream ops = p.getOutputStream();
+        inp = new BufferedReader(new InputStreamReader(ips));
+        out = new BufferedWriter(new OutputStreamWriter(ops));
+        Queue<PhyloTreeNode> q = new LinkedList<PhyloTreeNode>();
+        q.add(tree.getRoot());
+        PhyloTreeNode cur;
+        while(! q.isEmpty()){
+            cur = q.poll();
+            for(int i = 0; i < cur.getChildren().size(); i++){
+                q.add(cur.getChildren().get(i));
+            }
+            out.write(tree.getConsensusSequence());
+            out.flush();
+            out.write(cur.getFolding());
+            out.flush();
+            String line;
+            while(( line = inp.readLine()) != null){
+                System.out.println(line);
             }
         }
+
 
     }
 
@@ -355,8 +394,10 @@ public class Sankoff {
             System.out.println(bottomUp(tree.getRoot()));
             //printTree(tree);
             topDown(tree.getRoot());
-            //printTree(tree);
+            printTree(tree);
             rnaFold(tree);
+            calcDistancesFromConsensus(tree);
+
 
 
         } catch (IOException e) {
