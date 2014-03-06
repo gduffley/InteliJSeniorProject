@@ -1,15 +1,17 @@
  /**
  * Created by Gordon on 2/11/14.
  */
+import java.awt.*;
 import java.io.*;
 import java.util.*;
+import java.util.List;
 
-/* outline
- *Open up Stockholm and get data u
- *open up tree and get data about phylogenetic tree --> put into actual tree format
- *bottom down
- *top up
- */
+ /* outline
+  *Open up Stockholm and get data u
+  *open up tree and get data about phylogenetic tree --> put into actual tree format
+  *bottom down
+  *top up
+  */
 public class Sankoff {
     public static ArrayList<PhyloTreeNode> sequenceVariations; //ArrayList PhyloTreeNodes that represent a gene variation in the family
     public static String ss_Cons = null; //consensus secondary structure
@@ -18,6 +20,8 @@ public class Sankoff {
     public static String name; //name of the family we are working on
     public static String alphabet = "ABCDEFGHIJKLMNOPQRSTUV"; //alphabet so that each new node gets a 1 letter unique name
     public static int alphCounter = 0; //counter so that each new node gets a unique name
+    private static int[][] cost;
+    private static final int INF = 10000;
 
     public static void stockholmParse(String stockholmFile) throws IOException{
         sequenceVariations = new ArrayList<PhyloTreeNode>();
@@ -311,11 +315,122 @@ public class Sankoff {
         }
         node.setSequence(newSeq);
     }
+    public static int sankoffIterateOverAllBases(PhyloTree tree){
+        int min = -INF;
+        int cur = 0;
+        int totalScore;
+        String bestBase;
+        String bases = "ACGT.";
+        for(int i = 0; i < tree.getRoot().getSequence().length(); i++){
+            for(int j = 0; j < bases.length(); j++){
+                cur = sankoffRecursion(tree.getRoot(), bases.substring(j,j+1), i);
+                if(cur > min){
+                    min = cur;
+                    bestBase = bases.substring(j,j+1);
+                }
+            }
+        }
+        System.out.println(totalScore);
+        return totalScore;
+    }
+    private static int sankoffRecursion(PhyloTreeNode node, String base, int pos){
+        int totalMax = -INF;
+        int totalSum = 0;
+        String bestBase = " ";
+        Collection<String> bases = new ArrayList<String>();
+        bases.add("A");
+        bases.add("C");
+        bases.add("G");
+        bases.add("T");
+        bases.add(".");
+        //lets pretend that the base in the current position is the base passed
+        Iterator<String> itL = bases.iterator();
+        Iterator<String> itR = bases.iterator();
+        String curL;
+        String curR;
+        String seqMod = node.getSequence().replace(",", "");
+        //if we are at a leaf
+        //if our pretend base matches the actual base that is there
+        //score of 0, ow score of -INF
+        if(node.getChildren().size() < 2){
+           if(seqMod.substring(pos,pos+1).equals(base)){
+               return 0;
+           }
+           else{
+               return -INF;
+           }
+        }
+        //if we aren't at a leaf, for our pretend base
+        //the score for our base is dependent on 2 criteria
+        //the score to go from our current pretend base to a new base
+        //plus the sankoff of running the child
+        else{
+            int maxL = -INF * 2;
+            int sum;
+            while(itL.hasNext()){
+                curL = itL.next();
+                sum = cost(base, curL);
+                sum += sankoffRecursion(node.getChildren().get(0), curL,pos);
+                if(sum > maxL) maxL = sum;
+            }
+            int maxR = -INF * 2;
+            while(itR.hasNext()){
+                curR = itR.next();
+                sum = cost(base, curR);
+                sum += sankoffRecursion(node.getChildren().get(1), curR, pos);
+                if(sum > maxR) maxR = sum;
+            }
+            totalMax = totalSum;
+            bestBase = base;
+        }
+        if(node.getSequence().equals("tbd")) node.setSequence(bestBase);
+        else node.setSequence(node.getSequence().concat(bestBase));
+        return totalMax;
+    }
+    private static int cost(String b1, String b2){
+        int b1Int = 0;
+        int b2Int = 0;
+        switch (b1.charAt(0)){
+            case 'A':
+                b1Int = 0;
+                break;
+            case 'C':
+                b1Int = 1;
+                break;
+            case 'G':
+                b1Int = 2;
+                break;
+            case 'T':
+                b1Int = 3;
+                break;
+            case '.':
+                b1Int = 4;
+                break;
+        }
+        switch (b2.charAt(0)){
+            case 'A':
+                b2Int = 0;
+                break;
+            case 'C':
+                b2Int = 1;
+                break;
+            case 'G':
+                b2Int = 2;
+                break;
+            case 'T':
+                b2Int = 3;
+                break;
+            case '.':
+                b2Int = 4;
+                break;
+        }
+        return cost[b1Int][b2Int];
+    }
+
     public static void rnaFold(PhyloTree tree) throws IOException {
         String command = "C:\\Users\\Gordon\\Dropbox\\Winter2014\\Comp401\\ViennaRNAPackage\\rnaFold.exe";
         BufferedReader inp;
         BufferedWriter out;
-        Runtime rt = Runtime.getRuntime();
         ProcessBuilder builder = new ProcessBuilder(command);
         builder.redirectErrorStream(true);
         Process p = builder.start();
@@ -340,10 +455,15 @@ public class Sankoff {
             int i = 0;
             while(i < 2 && ( line = inp.readLine()) != null){
                 if(i == 1){
-                    String[] split = line.split(" ");
-                    cur.setFolding(split[0]);
-                    split[2] = split[2].replace(")", "");
-                    cur.setEnergy(Double.parseDouble(split[2]));
+                    int lastClosed = line.lastIndexOf(")");
+                    int lastOpen = findClosestOpen(lastClosed, line);
+                    String energy = line.substring(lastOpen);
+                    line = line.substring(0, lastOpen);
+                    cur.setFolding(line);
+                    energy = energy.replace("(", "");
+                    energy = energy.replace(")", "");
+                    energy =  energy.trim();
+                    cur.setEnergy(Double.parseDouble(energy));
                 }
                 i++;
             }
@@ -356,7 +476,6 @@ public class Sankoff {
         String command = "C:\\Users\\Gordon\\Dropbox\\Winter2014\\Comp401\\ViennaRNAPackage\\rnaDistance.exe";
         BufferedReader inp;
         BufferedWriter out;
-        Runtime rt = Runtime.getRuntime();
         ProcessBuilder builder = new ProcessBuilder(command);
         builder.redirectErrorStream(true);
         Process p = builder.start();
@@ -372,18 +491,30 @@ public class Sankoff {
             for(int i = 0; i < cur.getChildren().size(); i++){
                 q.add(cur.getChildren().get(i));
             }
-            out.write(tree.getConsensusSequence());
+            String con = tree.getConsensusSequence().concat("\n");
+            con = con.replace("<", "(");
+            con = con.replace(">", ")");
+            String curFolding = cur.getFolding().concat("\n");
+            out.write(con);
             out.flush();
-            out.write(cur.getFolding());
+            out.write(curFolding);
             out.flush();
             String line;
-            while(( line = inp.readLine()) != null){
-                System.out.println(line);
+            int i = 0;
+            while(i < 1 && ( line = inp.readLine()) != null){
+                //System.out.println(line);
+                line = line.substring(2);
+                line = line.trim();
+                cur.setDistanceFromConsensus(Integer.parseInt(line));
+                i++;
             }
+            System.out.println(cur.getDistanceFromConsensus());
         }
 
 
     }
+
+
 
     public static void main(String Args[]){
         try {
@@ -391,12 +522,34 @@ public class Sankoff {
             phyloTreeCreator(Args[1]);
             //printTree(tree);
             sequenceMod();
-            System.out.println(bottomUp(tree.getRoot()));
+            //System.out.println(bottomUp(tree.getRoot()));
             //printTree(tree);
-            topDown(tree.getRoot());
+            //topDown(tree.getRoot());
+            //printTree(tree);
+            //rnaFold(tree);
+            //calcDistancesFromConsensus(tree);
+            cost = new int[5][5];
+            for(int i = 0; i < 5; i++){
+                if(i != 4){
+                    cost[i][4] = -2;
+                    cost[4][i] = -2;
+                }
+                cost[i][i] = 0;
+            }
+            cost[0][1] = -2;
+            cost[0][2] = -1;
+            cost[0][3] = -2;
+            cost[1][2] = -2;
+            cost[1][3] = -1;
+            cost[2][3] = -2;
+            for(int i = 0; i < cost.length; i++){
+                cost[i][i] = cost[cost.length-1-i][i];
+            }
+            sankoffIterateOverAllBases(tree);
             printTree(tree);
-            rnaFold(tree);
-            calcDistancesFromConsensus(tree);
+
+
+
 
 
 
