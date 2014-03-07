@@ -1,10 +1,8 @@
  /**
  * Created by Gordon on 2/11/14.
  */
-import java.awt.*;
 import java.io.*;
 import java.util.*;
-import java.util.List;
 
  /* outline
   *Open up Stockholm and get data u
@@ -349,6 +347,21 @@ public class Sankoff {
             min = -INF;
         }
         System.out.println(totalScore);
+        Queue<PhyloTreeNode> q = new LinkedList<PhyloTreeNode>();
+        q.add(tree.getRoot());
+        PhyloTreeNode curN;
+        while(! q.isEmpty()){
+            curN = q.poll();
+            for(int i = 0; i < curN.getChildren().size(); i++){
+                q.add(curN.getChildren().get(i));
+            }
+            String curSeq = curN.getSequence();
+            curSeq = curSeq.replace(",","");
+            curSeq = curSeq.replace("", ",");
+            if(curSeq.startsWith(",")) curSeq = curSeq.replaceFirst(",", "");
+            if(curSeq.endsWith(",")) curSeq = curSeq.substring(0,curSeq.length() -1);
+            curN.setSequence(curSeq);
+        }
 
         return totalScore;
     }
@@ -409,7 +422,8 @@ public class Sankoff {
                 }
             }
             totalMax = maxR + maxL;
-            /*
+
+            //non-essential code to get sequences at each letter
             if(pos == 0 && node.getChildren().get(0).getChildren().size() > 1){
                 node.getChildren().get(0).setSequence(bestL);
                 node.getChildren().get(1).setSequence(bestR);
@@ -417,10 +431,24 @@ public class Sankoff {
             if(pos > 0 && node.getChildren().get(0).getChildren().size() > 1){
                 PhyloTreeNode leftChild = node.getChildren().get(0);
                 PhyloTreeNode rightChild = node.getChildren().get(1);
-                leftChild.setSequence(leftChild.getSequence().concat(bestL));
-                rightChild.setSequence(rightChild.getSequence().concat(bestR));
-            }*/
-
+                if(!(pos < leftChild.getSequence().length())){
+                    leftChild.setSequence(leftChild.getSequence().concat(bestL));
+                    rightChild.setSequence(rightChild.getSequence().concat(bestR));
+                }
+                else{
+                    String[] leftSeq = leftChild.getSequence().split("");
+                    String[] rightSeq = rightChild.getSequence().split("");
+                    leftSeq[pos + 1] = bestL;
+                    rightSeq[pos + 1] = bestR;
+                    String newL = "";
+                    for(String str: leftSeq)newL += str;
+                    String newR = "";
+                    for(String str: rightSeq)newR += str;
+                    leftChild.setSequence(newL);
+                    rightChild.setSequence(newR);
+                }
+            }
+            //end of non-essential code
         }
         return totalMax;
     }
