@@ -318,19 +318,38 @@ public class Sankoff {
     public static int sankoffIterateOverAllBases(PhyloTree tree){
         int min = -INF;
         int cur = 0;
-        int totalScore;
-        String bestBase;
-        String bases = "ACGT.";
-        for(int i = 0; i < tree.getRoot().getSequence().length(); i++){
-            for(int j = 0; j < bases.length(); j++){
-                cur = sankoffRecursion(tree.getRoot(), bases.substring(j,j+1), i);
+        int totalScore = 0;
+        Collection<String> bases = new ArrayList<String>();
+        bases.add("A");
+        bases.add("C");
+        bases.add("G");
+        bases.add("U");
+        bases.add(".");
+        String bestBase = "";
+        String curBase = "";
+        PhyloTreeNode curNode = tree.getRoot();
+        while(curNode.getChildren().size() == 2) curNode = curNode.getChildren().get(1);
+        String seq = curNode.getSequence();
+        String seqMode = seq.replace(",","");
+        int seqLength = seqMode.length();
+        for(int i = 0; i < seqLength; i++){
+            Iterator<String> it = bases.iterator();
+            while(it.hasNext()){
+                curBase = it.next();
+                cur = sankoffRecursion(tree.getRoot(), curBase, i);
                 if(cur > min){
                     min = cur;
-                    bestBase = bases.substring(j,j+1);
+                    bestBase = curBase;
                 }
             }
+            if(i == 0) tree.getRoot().setSequence(bestBase);
+            else tree.getRoot().setSequence(tree.getRoot().getSequence().concat(bestBase));
+            if(i < seqLength) tree.getRoot().setSequence(tree.getRoot().getSequence().concat(","));
+            totalScore += min;
+            min = -INF;
         }
         System.out.println(totalScore);
+
         return totalScore;
     }
     private static int sankoffRecursion(PhyloTreeNode node, String base, int pos){
@@ -341,7 +360,7 @@ public class Sankoff {
         bases.add("A");
         bases.add("C");
         bases.add("G");
-        bases.add("T");
+        bases.add("U");
         bases.add(".");
         //lets pretend that the base in the current position is the base passed
         Iterator<String> itL = bases.iterator();
@@ -349,11 +368,14 @@ public class Sankoff {
         String curL;
         String curR;
         String seqMod = node.getSequence().replace(",", "");
+        String[] seqArray = seqMod.split("");
+        String bestL = "";
+        String bestR = "";
         //if we are at a leaf
         //if our pretend base matches the actual base that is there
         //score of 0, ow score of -INF
         if(node.getChildren().size() < 2){
-           if(seqMod.substring(pos,pos+1).equals(base)){
+           if(seqArray[pos+1].equals(base)){
                return 0;
            }
            else{
@@ -371,20 +393,35 @@ public class Sankoff {
                 curL = itL.next();
                 sum = cost(base, curL);
                 sum += sankoffRecursion(node.getChildren().get(0), curL,pos);
-                if(sum > maxL) maxL = sum;
+                if(sum > maxL){
+                    maxL = sum;
+                    bestL = curL;
+                }
             }
             int maxR = -INF * 2;
             while(itR.hasNext()){
                 curR = itR.next();
                 sum = cost(base, curR);
                 sum += sankoffRecursion(node.getChildren().get(1), curR, pos);
-                if(sum > maxR) maxR = sum;
+                if(sum > maxR){
+                    maxR = sum;
+                    bestR = curR;
+                }
             }
-            totalMax = totalSum;
-            bestBase = base;
+            totalMax = maxR + maxL;
+            /*
+            if(pos == 0 && node.getChildren().get(0).getChildren().size() > 1){
+                node.getChildren().get(0).setSequence(bestL);
+                node.getChildren().get(1).setSequence(bestR);
+            }
+            if(pos > 0 && node.getChildren().get(0).getChildren().size() > 1){
+                PhyloTreeNode leftChild = node.getChildren().get(0);
+                PhyloTreeNode rightChild = node.getChildren().get(1);
+                leftChild.setSequence(leftChild.getSequence().concat(bestL));
+                rightChild.setSequence(rightChild.getSequence().concat(bestR));
+            }*/
+
         }
-        if(node.getSequence().equals("tbd")) node.setSequence(bestBase);
-        else node.setSequence(node.getSequence().concat(bestBase));
         return totalMax;
     }
     private static int cost(String b1, String b2){
@@ -400,7 +437,7 @@ public class Sankoff {
             case 'G':
                 b1Int = 2;
                 break;
-            case 'T':
+            case 'U':
                 b1Int = 3;
                 break;
             case '.':
@@ -417,7 +454,7 @@ public class Sankoff {
             case 'G':
                 b2Int = 2;
                 break;
-            case 'T':
+            case 'U':
                 b2Int = 3;
                 break;
             case '.':
@@ -536,15 +573,20 @@ public class Sankoff {
                 }
                 cost[i][i] = 0;
             }
+            //get across the diagonal correct
             cost[0][1] = -2;
             cost[0][2] = -1;
             cost[0][3] = -2;
             cost[1][2] = -2;
             cost[1][3] = -1;
             cost[2][3] = -2;
-            for(int i = 0; i < cost.length; i++){
-                cost[i][i] = cost[cost.length-1-i][i];
-            }
+            cost[1][0] = -2;
+            cost[2][0] = -1;
+            cost[3][0] = -2;
+            cost[2][1] = -2;
+            cost[3][1] = -1;
+            cost[3][2] = -2;
+            int j = 0;
             sankoffIterateOverAllBases(tree);
             printTree(tree);
 
