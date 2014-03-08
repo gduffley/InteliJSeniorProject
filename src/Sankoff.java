@@ -1,18 +1,15 @@
  /**
  * Created by Gordon on 2/11/14.
  */
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
-/* outline
- *Open up Stockholm and get data u
- *open up tree and get data about phylogenetic tree --> put into actual tree format
- *bottom down
- *top up
- */
+ /* outline
+  *Open up Stockholm and get data u
+  *open up tree and get data about phylogenetic tree --> put into actual tree format
+  *bottom down
+  *top up
+  */
 public class Sankoff {
     public static ArrayList<PhyloTreeNode> sequenceVariations; //ArrayList PhyloTreeNodes that represent a gene variation in the family
     public static String ss_Cons = null; //consensus secondary structure
@@ -21,6 +18,8 @@ public class Sankoff {
     public static String name; //name of the family we are working on
     public static String alphabet = "ABCDEFGHIJKLMNOPQRSTUV"; //alphabet so that each new node gets a 1 letter unique name
     public static int alphCounter = 0; //counter so that each new node gets a unique name
+    private static int[][] cost;
+    private static final int INF = 10000;
 
     public static void stockholmParse(String stockholmFile) throws IOException{
         sequenceVariations = new ArrayList<PhyloTreeNode>();
@@ -88,6 +87,7 @@ public class Sankoff {
         int curClosed;
         tree = new PhyloTree(alphabet.substring(alphCounter, alphCounter + 1), "tbd"); //creates root with name A
         alphCounter++;
+        tree.setConsensusSequence(ss_Cons);
         try{
             FileReader fileReader = new FileReader(treeFile);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -313,17 +313,314 @@ public class Sankoff {
         }
         node.setSequence(newSeq);
     }
+    public static int sankoffIterateOverAllBases(PhyloTree tree){
+        int min = -INF;
+        int cur = 0;
+        int totalScore = 0;
+        Collection<String> bases = new ArrayList<String>();
+        bases.add("A");
+        bases.add("C");
+        bases.add("G");
+        bases.add("U");
+        bases.add(".");
+        String bestBase = "";
+        String curBase = "";
+        PhyloTreeNode curNode = tree.getRoot();
+        while(curNode.getChildren().size() == 2) curNode = curNode.getChildren().get(1);
+        String seq = curNode.getSequence();
+        String seqMode = seq.replace(",","");
+        int seqLength = seqMode.length();
+        for(int i = 0; i < seqLength; i++){
+            Iterator<String> it = bases.iterator();
+            while(it.hasNext()){
+                curBase = it.next();
+                cur = sankoffRecursion(tree.getRoot(), curBase, i);
+                if(cur > min){
+                    min = cur;
+                    bestBase = curBase;
+                }
+            }
+            if(i == 0) tree.getRoot().setSequence(bestBase);
+            else tree.getRoot().setSequence(tree.getRoot().getSequence().concat(bestBase));
+            if(i < seqLength) tree.getRoot().setSequence(tree.getRoot().getSequence().concat(","));
+            totalScore += min;
+            min = -INF;
+        }
+        System.out.println(totalScore);
+        Queue<PhyloTreeNode> q = new LinkedList<PhyloTreeNode>();
+        q.add(tree.getRoot());
+        PhyloTreeNode curN;
+        while(! q.isEmpty()){
+            curN = q.poll();
+            for(int i = 0; i < curN.getChildren().size(); i++){
+                q.add(curN.getChildren().get(i));
+            }
+            String curSeq = curN.getSequence();
+            curSeq = curSeq.replace(",","");
+            curSeq = curSeq.replace("", ",");
+            if(curSeq.startsWith(",")) curSeq = curSeq.replaceFirst(",", "");
+            if(curSeq.endsWith(",")) curSeq = curSeq.substring(0,curSeq.length() -1);
+            curN.setSequence(curSeq);
+        }
+
+        return totalScore;
+    }
+    private static int sankoffRecursion(PhyloTreeNode node, String base, int pos){
+        int totalMax = -INF;
+        int totalSum = 0;
+        String bestBase = " ";
+        Collection<String> bases = new ArrayList<String>();
+        bases.add("A");
+        bases.add("C");
+        bases.add("G");
+        bases.add("U");
+        bases.add(".");
+        //lets pretend that the base in the current position is the base passed
+        Iterator<String> itL = bases.iterator();
+        Iterator<String> itR = bases.iterator();
+        String curL;
+        String curR;
+        String seqMod = node.getSequence().replace(",", "");
+        String[] seqArray = seqMod.split("");
+        String bestL = "";
+        String bestR = "";
+        //if we are at a leaf
+        //if our pretend base matches the actual base that is there
+        //score of 0, ow score of -INF
+        if(node.getChildren().size() < 2){
+           if(seqArray[pos+1].equals(base)){
+               return 0;
+           }
+           else{
+               return -INF;
+           }
+        }
+        //if we aren't at a leaf, for our pretend base
+        //the score for our base is dependent on 2 criteria
+        //the score to go from our current pretend base to a new base
+        //plus the sankoff of running the child
+        else{
+            int maxL = -INF * 2;
+            int sum;
+            while(itL.hasNext()){
+                curL = itL.next();
+                sum = cost(base, curL);
+                sum += sankoffRecursion(node.getChildren().get(0), curL,pos);
+                if(sum > maxL){
+                    maxL = sum;
+                    bestL = curL;
+                }
+            }
+            int maxR = -INF * 2;
+            while(itR.hasNext()){
+                curR = itR.next();
+                sum = cost(base, curR);
+                sum += sankoffRecursion(node.getChildren().get(1), curR, pos);
+                if(sum > maxR){
+                    maxR = sum;
+                    bestR = curR;
+                }
+            }
+            totalMax = maxR + maxL;
+
+            //non-essential code to get sequences at each letter
+            if(pos == 0 && node.getChildren().get(0).getChildren().size() > 1){
+                node.getChildren().get(0).setSequence(bestL);
+                node.getChildren().get(1).setSequence(bestR);
+            }
+            if(pos > 0 && node.getChildren().get(0).getChildren().size() > 1){
+                PhyloTreeNode leftChild = node.getChildren().get(0);
+                PhyloTreeNode rightChild = node.getChildren().get(1);
+                if(!(pos < leftChild.getSequence().length())){
+                    leftChild.setSequence(leftChild.getSequence().concat(bestL));
+                    rightChild.setSequence(rightChild.getSequence().concat(bestR));
+                }
+                else{
+                    String[] leftSeq = leftChild.getSequence().split("");
+                    String[] rightSeq = rightChild.getSequence().split("");
+                    leftSeq[pos + 1] = bestL;
+                    rightSeq[pos + 1] = bestR;
+                    String newL = "";
+                    for(String str: leftSeq)newL += str;
+                    String newR = "";
+                    for(String str: rightSeq)newR += str;
+                    leftChild.setSequence(newL);
+                    rightChild.setSequence(newR);
+                }
+            }
+            //end of non-essential code
+        }
+        return totalMax;
+    }
+    private static int cost(String b1, String b2){
+        int b1Int = 0;
+        int b2Int = 0;
+        switch (b1.charAt(0)){
+            case 'A':
+                b1Int = 0;
+                break;
+            case 'C':
+                b1Int = 1;
+                break;
+            case 'G':
+                b1Int = 2;
+                break;
+            case 'U':
+                b1Int = 3;
+                break;
+            case '.':
+                b1Int = 4;
+                break;
+        }
+        switch (b2.charAt(0)){
+            case 'A':
+                b2Int = 0;
+                break;
+            case 'C':
+                b2Int = 1;
+                break;
+            case 'G':
+                b2Int = 2;
+                break;
+            case 'U':
+                b2Int = 3;
+                break;
+            case '.':
+                b2Int = 4;
+                break;
+        }
+        return cost[b1Int][b2Int];
+    }
+
+    public static void rnaFold(PhyloTree tree) throws IOException {
+        String command = "C:\\Users\\Gordon\\Dropbox\\Winter2014\\Comp401\\ViennaRNAPackage\\rnaFold.exe";
+        BufferedReader inp;
+        BufferedWriter out;
+        ProcessBuilder builder = new ProcessBuilder(command);
+        builder.redirectErrorStream(true);
+        Process p = builder.start();
+        InputStream ips = p.getInputStream();
+        OutputStream ops = p.getOutputStream();
+        inp = new BufferedReader(new InputStreamReader(ips));
+        out = new BufferedWriter(new OutputStreamWriter(ops));
+        Queue<PhyloTreeNode> q = new LinkedList<PhyloTreeNode>();
+        q.add(tree.getRoot());
+        PhyloTreeNode cur;
+        while(! q.isEmpty()){
+            cur = q.poll();
+            for(int i = 0; i < cur.getChildren().size(); i++){
+                q.add(cur.getChildren().get(i));
+            }
+            String seq = cur.getSequence();
+            seq = seq.replace(".", "");
+            seq = seq.concat("\n");
+            out.write(seq);
+            out.flush();
+            String line;
+            int i = 0;
+            while(i < 2 && ( line = inp.readLine()) != null){
+                if(i == 1){
+                    int lastClosed = line.lastIndexOf(")");
+                    int lastOpen = findClosestOpen(lastClosed, line);
+                    String energy = line.substring(lastOpen);
+                    line = line.substring(0, lastOpen);
+                    cur.setFolding(line);
+                    energy = energy.replace("(", "");
+                    energy = energy.replace(")", "");
+                    energy =  energy.trim();
+                    cur.setEnergy(Double.parseDouble(energy));
+                }
+                i++;
+            }
+            System.out.println(cur.getFolding() + "   " + Double.toString(cur.getEnergy()));
+        }
+        p.destroy();
+
+    }
+    public static void calcDistancesFromConsensus(PhyloTree tree) throws IOException {
+        String command = "C:\\Users\\Gordon\\Dropbox\\Winter2014\\Comp401\\ViennaRNAPackage\\rnaDistance.exe";
+        BufferedReader inp;
+        BufferedWriter out;
+        ProcessBuilder builder = new ProcessBuilder(command);
+        builder.redirectErrorStream(true);
+        Process p = builder.start();
+        InputStream ips = p.getInputStream();
+        OutputStream ops = p.getOutputStream();
+        inp = new BufferedReader(new InputStreamReader(ips));
+        out = new BufferedWriter(new OutputStreamWriter(ops));
+        Queue<PhyloTreeNode> q = new LinkedList<PhyloTreeNode>();
+        q.add(tree.getRoot());
+        PhyloTreeNode cur;
+        while(! q.isEmpty()){
+            cur = q.poll();
+            for(int i = 0; i < cur.getChildren().size(); i++){
+                q.add(cur.getChildren().get(i));
+            }
+            String con = tree.getConsensusSequence().concat("\n");
+            con = con.replace("<", "(");
+            con = con.replace(">", ")");
+            String curFolding = cur.getFolding().concat("\n");
+            out.write(con);
+            out.flush();
+            out.write(curFolding);
+            out.flush();
+            String line;
+            int i = 0;
+            while(i < 1 && ( line = inp.readLine()) != null){
+                //System.out.println(line);
+                line = line.substring(2);
+                line = line.trim();
+                cur.setDistanceFromConsensus(Integer.parseInt(line));
+                i++;
+            }
+            System.out.println(cur.getDistanceFromConsensus());
+        }
+
+
+    }
+
+
 
     public static void main(String Args[]){
         try {
             stockholmParse(Args[0]);
             phyloTreeCreator(Args[1]);
-            printTree(tree);
+            //printTree(tree);
             sequenceMod();
-            System.out.println(bottomUp(tree.getRoot()));
+            //System.out.println(bottomUp(tree.getRoot()));
+            //printTree(tree);
+            //topDown(tree.getRoot());
+            //printTree(tree);
+            //rnaFold(tree);
+            //calcDistancesFromConsensus(tree);
+            cost = new int[5][5];
+            for(int i = 0; i < 5; i++){
+                if(i != 4){
+                    cost[i][4] = -2;
+                    cost[4][i] = -2;
+                }
+                cost[i][i] = 0;
+            }
+            //get across the diagonal correct
+            cost[0][1] = -2;
+            cost[0][2] = -1;
+            cost[0][3] = -2;
+            cost[1][2] = -2;
+            cost[1][3] = -1;
+            cost[2][3] = -2;
+            cost[1][0] = -2;
+            cost[2][0] = -1;
+            cost[3][0] = -2;
+            cost[2][1] = -2;
+            cost[3][1] = -1;
+            cost[3][2] = -2;
+            int j = 0;
+            sankoffIterateOverAllBases(tree);
             printTree(tree);
-            topDown(tree.getRoot());
-            printTree(tree);
+
+
+
+
 
 
         } catch (IOException e) {
