@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="617c5ef1-0752-45a0-a69a-5f4a812ba455" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/PhyloTree.java" afterPath="$PROJECT_DIR$/src/PhyloTree.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/PhyloTreeNode.java" afterPath="$PROJECT_DIR$/src/PhyloTreeNode.java" />
-    </list>
+    <list default="true" id="617c5ef1-0752-45a0-a69a-5f4a812ba455" name="Default" comment="" />
     <ignored path="InteliJSeniorProject.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
