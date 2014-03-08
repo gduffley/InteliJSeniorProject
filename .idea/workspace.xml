@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="617c5ef1-0752-45a0-a69a-5f4a812ba455" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/PhyloTreeNode.java" afterPath="$PROJECT_DIR$/src/PhyloTreeNode.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Sankoff.java" afterPath="$PROJECT_DIR$/src/Sankoff.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="InteliJSeniorProject.iws" />
@@ -68,10 +68,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="PhyloTreeNode.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="PhyloTreeNode.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/PhyloTreeNode.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="11" selection-start="80" selection-end="80" vertical-scroll-proportion="0.05214724" vertical-offset="0" max-vertical-offset="935">
+            <state line="4" column="11" selection-start="80" selection-end="80" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="935">
               <folding />
             </state>
           </provider>
@@ -88,10 +88,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Sankoff.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="Sankoff.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Sankoff.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="82" column="10" selection-start="3882" selection-end="3882" vertical-scroll-proportion="0.0" vertical-offset="1020" max-vertical-offset="10744">
+            <state line="82" column="11" selection-start="3883" selection-end="3883" vertical-scroll-proportion="0.49539876" vertical-offset="1020" max-vertical-offset="10744">
               <folding />
             </state>
           </provider>
@@ -118,8 +118,8 @@
     <option name="changedFiles">
       <list>
         <option value="$PROJECT_DIR$/src/PhyloTree.java" />
-        <option value="$PROJECT_DIR$/src/Sankoff.java" />
         <option value="$PROJECT_DIR$/src/PhyloTreeNode.java" />
+        <option value="$PROJECT_DIR$/src/Sankoff.java" />
       </list>
     </option>
   </component>
@@ -431,7 +431,11 @@
       <created>1394259494093</created>
       <updated>1394259494093</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Works for up to implementation of sankoff&#10;">
+      <created>1394259742436</created>
+      <updated>1394259742436</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -828,13 +832,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Sankoff.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="82" column="10" selection-start="3882" selection-end="3882" vertical-scroll-proportion="0.0" vertical-offset="1020" max-vertical-offset="10744">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/PhyloTree.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="18" column="0" selection-start="399" selection-end="399" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="510">
@@ -846,7 +843,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/PhyloTreeNode.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="11" selection-start="80" selection-end="80" vertical-scroll-proportion="0.05214724" vertical-offset="0" max-vertical-offset="935">
+        <state line="4" column="11" selection-start="80" selection-end="80" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="935">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Sankoff.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="82" column="11" selection-start="3883" selection-end="3883" vertical-scroll-proportion="0.49539876" vertical-offset="1020" max-vertical-offset="10744">
           <folding />
         </state>
       </provider>
