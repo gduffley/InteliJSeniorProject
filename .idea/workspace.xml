@@ -67,19 +67,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="PhyloTreeNode.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="PhyloTreeNode.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/PhyloTreeNode.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="51" column="0" selection-start="1137" selection-end="1137" vertical-scroll-proportion="0.0" vertical-offset="867" max-vertical-offset="1139">
+            <state line="51" column="0" selection-start="1137" selection-end="1137" vertical-scroll-proportion="0.5828221" vertical-offset="283" max-vertical-offset="935">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PhyloTree.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="PhyloTree.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/PhyloTree.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="0" selection-start="399" selection-end="399" vertical-scroll-proportion="0.46932516" vertical-offset="0" max-vertical-offset="652">
+            <state line="18" column="0" selection-start="399" selection-end="399" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="510">
               <folding>
                 <element signature="e#429#430#0" expanded="true" />
               </folding>
@@ -422,7 +422,11 @@
       <created>1394259396526</created>
       <updated>1394259396526</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Works for up to implementation of sankoff&#10;">
+      <created>1394259484477</created>
+      <updated>1394259484477</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -500,7 +504,8 @@
     <MESSAGE value="Sankoff returns root sequence&#10;" />
     <MESSAGE value="Sankoff fully functional" />
     <MESSAGE value="test" />
-    <option name="LAST_COMMIT_MESSAGE" value="test" />
+    <MESSAGE value="Works for up to implementation of sankoff&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Works for up to implementation of sankoff&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -811,13 +816,6 @@
         <state line="451" column="0" selection-start="17751" selection-end="17751" vertical-scroll-proportion="0.33333334" vertical-offset="7333" max-vertical-offset="7820" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/PhyloTreeNode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="51" column="0" selection-start="1137" selection-end="1137" vertical-scroll-proportion="0.0" vertical-offset="569" max-vertical-offset="969">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://C:/Program Files (x86)/Java/jdk1.6.0/src.zip!/java/lang/String.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="1934" column="0" selection-start="73921" selection-end="73921" vertical-scroll-proportion="0.33257404" vertical-offset="32460" max-vertical-offset="50881">
@@ -834,10 +832,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/PhyloTree.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="0" selection-start="399" selection-end="399" vertical-scroll-proportion="0.46932516" vertical-offset="0" max-vertical-offset="652">
+        <state line="18" column="0" selection-start="399" selection-end="399" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="510">
           <folding>
             <element signature="e#429#430#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/PhyloTreeNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="51" column="0" selection-start="1137" selection-end="1137" vertical-scroll-proportion="0.5828221" vertical-offset="283" max-vertical-offset="935">
+          <folding />
         </state>
       </provider>
     </entry>
