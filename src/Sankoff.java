@@ -80,7 +80,7 @@ public class Sankoff {
     //children being the old root, and the new sequence
     //if there are 2 genes in a single layer at any point,
     //create a parent for them, treat the parent node like a single node
-    //
+    //test
     public static void phyloTreeCreator(String treeFile) throws IOException{
         String line = null;
         int curOpen;
