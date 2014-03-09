@@ -11,11 +11,13 @@ public class PhyloTreeNode {
     private String folding;
     private double energy;
     private int distanceFromConsensus;
+    private String pontSequence;
 
     public PhyloTreeNode(String name, String sequence){
         this.name = name;
         this.sequence = sequence;
         this.parent = null;
+        this.pontSequence = "";
     }
 
     public void setName(String name){
@@ -57,5 +59,13 @@ public class PhyloTreeNode {
     public double getEnergy(){return this.energy;}
     public void setDistanceFromConsensus(int a){this.distanceFromConsensus = a;}
     public int getDistanceFromConsensus(){ return this.distanceFromConsensus;}
+
+    public String getPontSequence() {
+        return pontSequence;
+    }
+
+    public void setPontSequence(String pontSequence) {
+        this.pontSequence = pontSequence;
+    }
 }
 

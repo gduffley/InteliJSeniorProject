@@ -578,6 +578,16 @@ public class Sankoff {
 
 
     }
+     public static void keepStructure(PhyloTree tree){
+         //How the fuck am I going to do this????????
+         //Take into account the structure of 2 children
+         //the first step is to find the secondary structure of the leaves
+         //Use the sankoff to find the parent sequences
+         //if the change results in no change of structure, accept the change
+         //if it does, then keep the change in another string
+         //if there is later another change that when paired with any other
+         //changes
+     }
 
 
 
