@@ -365,6 +365,7 @@ public class Sankoff {
 
         return totalScore;
     }
+
     private static int sankoffRecursion(PhyloTreeNode node, String base, int pos){
         int totalMax = -INF;
         int totalSum = 0;
@@ -394,10 +395,7 @@ public class Sankoff {
            else{
                return -INF;
            }
-        }
-        //if we aren't at a leaf, for our pretend base
-        //the score for our base is dependent on 2 criteria
-        //the score to go from our current pretend base to a new base
+        }    //the score to go from our current pretend base to a new base
         //plus the sankoff of running the child
         else{
             int maxL = -INF * 2;
@@ -449,9 +447,27 @@ public class Sankoff {
                 }
             }
             //end of non-essential code
+            PhyloTreeNode current = node;
+            while(current.getChildren().size() > 1){
+                current = current.getChildren().get(0);
+            }
+            int seqLength = current.getSequence().length();
+            ArrayList<Integer> differences = new ArrayList<Integer>();
+            if(node.getPontSequence().length() == seqLength){
+                String oldSeq = node.getSequence();
+                String pontSeq = node.getPontSequence();
+                for(int i = 0; i < seqLength; i++){
+                    if(oldSeq.charAt(i) == pontSeq.charAt(i)) differences.add(i);
+                }
+
+            }
+
         }
         return totalMax;
     }
+        //if we aren't at a leaf, for our pretend base
+        //the score for our base is dependent on 2 criteria
+
     private static int cost(String b1, String b2){
         int b1Int = 0;
         int b2Int = 0;
@@ -578,15 +594,93 @@ public class Sankoff {
 
 
     }
-     public static void keepStructure(PhyloTree tree){
-         //How the fuck am I going to do this????????
-         //Take into account the structure of 2 children
-         //the first step is to find the secondary structure of the leaves
-         //Use the sankoff to find the parent sequences
-         //if the change results in no change of structure, accept the change
-         //if it does, then keep the change in another string
-         //if there is later another change that when paired with any other
-         //changes
+     public static int keepStructure(PhyloTreeNode node, String base, int pos){
+         //Do Sankoff and keep track of the possible changes
+         //for every combination of not changes and changes sum the
+         //distance from each child. Select the changes combination
+         //that results in the lowest combined score
+         int totalMax = -INF;
+         int totalSum = 0;
+         String bestBase = " ";
+         Collection<String> bases = new ArrayList<String>();
+         bases.add("A");
+         bases.add("C");
+         bases.add("G");
+         bases.add("U");
+         bases.add(".");
+         //lets pretend that the base in the current position is the base passed
+         Iterator<String> itL = bases.iterator();
+         Iterator<String> itR = bases.iterator();
+         String curL;
+         String curR;
+         String seqMod = node.getSequence().replace(",", "");
+         String[] seqArray = seqMod.split("");
+         String bestL = "";
+         String bestR = "";
+         //if we are at a leaf
+         //if our pretend base matches the actual base that is there
+         //score of 0, ow score of -INF
+         if(node.getChildren().size() < 2){
+             if(seqArray[pos+1].equals(base)){
+                 return 0;
+             }
+             else{
+                 return -INF;
+             }
+         }    //the score to go from our current pretend base to a new base
+         //plus the sankoff of running the child
+         else{
+             int maxL = -INF * 2;
+             int sum;
+             while(itL.hasNext()){
+                 curL = itL.next();
+                 sum = cost(base, curL);
+                 sum += sankoffRecursion(node.getChildren().get(0), curL,pos);
+                 if(sum > maxL){
+                     maxL = sum;
+                     bestL = curL;
+                 }
+             }
+             int maxR = -INF * 2;
+             while(itR.hasNext()){
+                 curR = itR.next();
+                 sum = cost(base, curR);
+                 sum += sankoffRecursion(node.getChildren().get(1), curR, pos);
+                 if(sum > maxR){
+                     maxR = sum;
+                     bestR = curR;
+                 }
+             }
+             totalMax = maxR + maxL;
+
+             //non-essential code to get sequences at each letter
+             if(pos == 0 && node.getChildren().get(0).getChildren().size() > 1){
+                 node.getChildren().get(0).setPontSequence(bestL);
+                 node.getChildren().get(1).setPontSequence(bestR);
+             }
+             if(pos > 0 && node.getChildren().get(0).getChildren().size() > 1){
+                 PhyloTreeNode leftChild = node.getChildren().get(0);
+                 PhyloTreeNode rightChild = node.getChildren().get(1);
+                 if(!(pos < leftChild.getPontSequence().length())){
+                     leftChild.setPontSequence(leftChild.getPontSequence().concat(bestL));
+                     rightChild.setPontSequence(rightChild.getPontSequence().concat(bestR));
+                 }
+                 else{
+                     String[] leftSeq = leftChild.getPontSequence().split("");
+                     String[] rightSeq = rightChild.getPontSequence().split("");
+                     leftSeq[pos + 1] = bestL;
+                     rightSeq[pos + 1] = bestR;
+                     String newL = "";
+                     for(String str: leftSeq)newL += str;
+                     String newR = "";
+                     for(String str: rightSeq)newR += str;
+                     leftChild.setPontSequence(newL);
+                     rightChild.setPontSequence(newR);
+                 }
+             }
+
+         }
+         return totalMax;
      }
 
 
