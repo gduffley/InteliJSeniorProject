@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="617c5ef1-0752-45a0-a69a-5f4a812ba455" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Sankoff.java" afterPath="$PROJECT_DIR$/src/Sankoff.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="InteliJSeniorProject.iws" />
@@ -463,7 +462,11 @@
       <created>1394498484897</created>
       <updated>1394498484897</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="Started to implement keeping folding method&#10;">
+      <created>1395098156727</created>
+      <updated>1395098156727</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -519,7 +522,8 @@
     <MESSAGE value="Works for up to implementation of sankoff&#10;" />
     <MESSAGE value="added potenntial sequence variable which will hold the string of potential changes when conserving structure" />
     <MESSAGE value="Started to implement keeping folding method" />
-    <option name="LAST_COMMIT_MESSAGE" value="Started to implement keeping folding method" />
+    <MESSAGE value="Started to implement keeping folding method&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Started to implement keeping folding method&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
