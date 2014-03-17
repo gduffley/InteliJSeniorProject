@@ -313,7 +313,7 @@ public class Sankoff {
         }
         node.setSequence(newSeq);
     }
-    public static int sankoffIterateOverAllBases(PhyloTree tree){
+    public static int sankoff(PhyloTree tree){
         int min = -INF;
         int cur = 0;
         int totalScore = 0;
@@ -328,8 +328,8 @@ public class Sankoff {
         PhyloTreeNode curNode = tree.getRoot();
         while(curNode.getChildren().size() == 2) curNode = curNode.getChildren().get(1);
         String seq = curNode.getSequence();
-        String seqMode = seq.replace(",","");
-        int seqLength = seqMode.length();
+        seq = seq.replace(",","");
+        int seqLength = seq.length();
         for(int i = 0; i < seqLength; i++){
             Iterator<String> it = bases.iterator();
             while(it.hasNext()){
@@ -342,7 +342,6 @@ public class Sankoff {
             }
             if(i == 0) tree.getRoot().setSequence(bestBase);
             else tree.getRoot().setSequence(tree.getRoot().getSequence().concat(bestBase));
-            if(i < seqLength) tree.getRoot().setSequence(tree.getRoot().getSequence().concat(","));
             totalScore += min;
             min = -INF;
         }
@@ -594,11 +593,7 @@ public class Sankoff {
 
 
     }
-     public static int keepStructure(PhyloTreeNode node, String base, int pos){
-         //Do Sankoff and keep track of the possible changes
-         //for every combination of not changes and changes sum the
-         //distance from each child. Select the changes combination
-         //that results in the lowest combined score
+     public static int keepStructureRecursive(PhyloTreeNode node, String base, int pos){
          int totalMax = -INF;
          int totalSum = 0;
          String bestBase = " ";
@@ -635,7 +630,7 @@ public class Sankoff {
              while(itL.hasNext()){
                  curL = itL.next();
                  sum = cost(base, curL);
-                 sum += sankoffRecursion(node.getChildren().get(0), curL,pos);
+                 sum += keepStructureRecursive(node.getChildren().get(0), curL, pos);
                  if(sum > maxL){
                      maxL = sum;
                      bestL = curL;
@@ -645,7 +640,7 @@ public class Sankoff {
              while(itR.hasNext()){
                  curR = itR.next();
                  sum = cost(base, curR);
-                 sum += sankoffRecursion(node.getChildren().get(1), curR, pos);
+                 sum += keepStructureRecursive(node.getChildren().get(1), curR, pos);
                  if(sum > maxR){
                      maxR = sum;
                      bestR = curR;
@@ -681,6 +676,55 @@ public class Sankoff {
 
          }
          return totalMax;
+     }
+
+     public static void keepSequence(PhyloTree tree){
+         PhyloTreeNode curNode;
+         int seqLength;
+         int totalScore = 0;
+         Collection<String> bases = new ArrayList<String>();
+         bases.add("A");
+         bases.add("C");
+         bases.add("G");
+         bases.add("U");
+         bases.add(".");
+         curNode = tree.getRoot();
+         while((curNode.getChildren().size()) > 0 ) curNode = curNode.getChildren().get(0);
+         String seq = curNode.getSequence();
+         seq = seq.replace(",","");
+         seqLength = seq.length();
+         for(int i = 0; i < seqLength; i++){
+             Iterator<String> it = bases.iterator();
+             int bestScore = -INF;
+             String bestBase = "";
+             while(it.hasNext()){
+                 String curBase = it.next();
+                 int curBaseScore = keepStructureRecursive(tree.getRoot(), curBase, i);
+                 if(curBaseScore > bestScore){
+                    bestScore = curBaseScore;
+                    bestBase = curBase;
+                 }
+             }
+             tree.getRoot().setPontSequence(tree.getRoot().getPontSequence().concat(bestBase));
+             totalScore += bestScore;
+         }
+         Queue<PhyloTreeNode> q = new LinkedList<PhyloTreeNode>();
+         q.add(tree.getRoot());
+         PhyloTreeNode curN;
+         while(! q.isEmpty()){
+             curN = q.poll();
+             for(int i = 0; i < curN.getChildren().size(); i++){
+                 q.add(curN.getChildren().get(i));
+             }
+             String curSeq = curN.getPontSequence();
+             curSeq = curSeq.replace(",","");
+             curSeq = curSeq.replace("", ",");
+             if(curSeq.startsWith(",")) curSeq = curSeq.replaceFirst(",", "");
+             if(curSeq.endsWith(",")) curSeq = curSeq.substring(0,curSeq.length() -1);
+             curN.setPontSequence(curSeq);
+         }
+
+
      }
 
 
@@ -719,8 +763,20 @@ public class Sankoff {
             cost[3][1] = -1;
             cost[3][2] = -2;
             int j = 0;
-            sankoffIterateOverAllBases(tree);
+            sankoff(tree);
             printTree(tree);
+            keepSequence(tree);
+            Queue<PhyloTreeNode> q = new LinkedList<PhyloTreeNode>();
+            PhyloTreeNode curNode = tree.getRoot();
+            q.add(curNode);
+            while(!q.isEmpty()){
+                curNode = q.poll();
+                for(int k = 0; k < curNode.getChildren().size(); k++){
+                    q.add(curNode.getChildren().get(k));
+                }
+                System.out.println(curNode.getPontSequence());
+            }
+
 
 
 

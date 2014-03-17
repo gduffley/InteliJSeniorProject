@@ -71,7 +71,7 @@
       <file leaf-file-name="PhyloTreeNode.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/PhyloTreeNode.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="31" selection-start="581" selection-end="581" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1037">
+            <state line="19" column="31" selection-start="0" selection-end="1866" vertical-scroll-proportion="0.0" vertical-offset="323" max-vertical-offset="1037">
               <folding />
             </state>
           </provider>
@@ -80,7 +80,7 @@
       <file leaf-file-name="PhyloTree.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/PhyloTree.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="4" selection-start="45" selection-end="45" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="476">
+            <state line="13" column="32" selection-start="0" selection-end="591" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="476">
               <folding />
             </state>
           </provider>
@@ -89,18 +89,21 @@
       <file leaf-file-name="Sankoff.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Sankoff.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="461" column="16" selection-start="20835" selection-end="20835" vertical-scroll-proportion="6.5276074" vertical-offset="3581" max-vertical-offset="12563">
+            <state line="731" column="43" selection-start="30798" selection-end="30798" vertical-scroll-proportion="-0.8802083" vertical-offset="12765" max-vertical-offset="13515">
               <folding>
-                <element signature="e#0#30474#0" expanded="true" />
+                <element signature="e#0#32463#0" expanded="true" />
                 <element signature="imports" expanded="true" />
                 <element signature="e#9627#9642#0" expanded="true" />
-                <element signature="e#14994#15002#0" expanded="true" />
-                <element signature="e#16227#16242#0" expanded="true" />
-                <element signature="e#17095#17103#0" expanded="true" />
-                <element signature="e#20483#20492#0" expanded="true" />
-                <element signature="e#22588#22603#0" expanded="true" />
-                <element signature="e#24512#24527#0" expanded="true" />
-                <element signature="e#25985#25993#0" expanded="true" />
+                <element signature="e#14975#14983#0" expanded="true" />
+                <element signature="e#16093#16108#0" expanded="true" />
+                <element signature="e#16961#16969#0" expanded="true" />
+                <element signature="e#20349#20358#0" expanded="true" />
+                <element signature="e#22438#22453#0" expanded="true" />
+                <element signature="e#24362#24377#0" expanded="true" />
+                <element signature="e#25594#25602#0" expanded="true" />
+                <element signature="e#29030#29038#0" expanded="true" />
+                <element signature="e#30105#30120#0" expanded="true" />
+                <element signature="e#31981#31996#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -128,15 +131,15 @@
       <list>
         <option value="$PROJECT_DIR$/src/PhyloTree.java" />
         <option value="$PROJECT_DIR$/src/PhyloTreeNode.java" />
+        <option value="$PROJECT_DIR$/src/CreateTree.java" />
         <option value="$PROJECT_DIR$/src/Sankoff.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
-    <option name="width" value="1382" />
-    <option name="height" value="784" />
+    <option name="x" value="683" />
+    <option name="width" value="683" />
+    <option name="height" value="768" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -145,14 +148,14 @@
     <OptionsSetting value="true" id="Update" />
     <OptionsSetting value="true" id="Status" />
     <OptionsSetting value="true" id="Edit" />
-    <ConfirmationsSetting value="0" id="Add" />
+    <ConfirmationsSetting value="2" id="Add" />
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
   <component name="ProjectReloadState">
     <option name="STATE" value="0" />
   </component>
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
+    <navigator proportions="" version="1" splitterProportion="0.5">
       <flattenPackages />
       <showMembers />
       <showModules />
@@ -163,20 +166,7 @@
       <autoscrollFromSource />
       <sortByType />
     </navigator>
-    <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
-      <pane id="ProjectPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="InteliJSeniorProject" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-    </panes>
+    <panes />
   </component>
   <component name="PropertiesComponent">
     <property name="GoToClass.includeLibraries" value="false" />
@@ -469,11 +459,15 @@
       <created>1394397963849</created>
       <updated>1394397963849</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Started to implement keeping folding method">
+      <created>1394498484897</created>
+      <updated>1394498484897</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="784" extended-state="6" />
+    <frame x="683" y="0" width="683" height="768" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -486,17 +480,17 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32890856" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.320059" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2489019" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32175228" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32175228" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32930514" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.320059" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -524,7 +518,8 @@
     <MESSAGE value="test" />
     <MESSAGE value="Works for up to implementation of sankoff&#10;" />
     <MESSAGE value="added potenntial sequence variable which will hold the string of potential changes when conserving structure" />
-    <option name="LAST_COMMIT_MESSAGE" value="added potenntial sequence variable which will hold the string of potential changes when conserving structure" />
+    <MESSAGE value="Started to implement keeping folding method" />
+    <option name="LAST_COMMIT_MESSAGE" value="Started to implement keeping folding method" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -546,24 +541,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Sankoff.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="588" column="18" selection-start="25400" selection-end="25400" vertical-scroll-proportion="0.0" vertical-offset="9996" max-vertical-offset="10965">
-          <folding>
-            <element signature="e#0#30474#0" expanded="true" />
-            <element signature="imports" expanded="true" />
-            <element signature="e#9627#9642#0" expanded="true" />
-            <element signature="e#14994#15002#0" expanded="true" />
-            <element signature="e#16227#16242#0" expanded="true" />
-            <element signature="e#17095#17103#0" expanded="true" />
-            <element signature="e#20483#20492#0" expanded="true" />
-            <element signature="e#22588#22603#0" expanded="true" />
-            <element signature="e#24512#24527#0" expanded="true" />
-            <element signature="e#25985#25993#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/PhyloTreeNode.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="19" column="31" selection-start="581" selection-end="581" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1105">
@@ -582,16 +559,19 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="588" column="18" selection-start="25400" selection-end="25400" vertical-scroll-proportion="0.0" vertical-offset="9996" max-vertical-offset="10965">
           <folding>
-            <element signature="e#0#30474#0" expanded="true" />
+            <element signature="e#0#32463#0" expanded="true" />
             <element signature="imports" expanded="true" />
             <element signature="e#9627#9642#0" expanded="true" />
-            <element signature="e#14994#15002#0" expanded="true" />
-            <element signature="e#16227#16242#0" expanded="true" />
-            <element signature="e#17095#17103#0" expanded="true" />
-            <element signature="e#20483#20492#0" expanded="true" />
-            <element signature="e#22588#22603#0" expanded="true" />
-            <element signature="e#24512#24527#0" expanded="true" />
-            <element signature="e#25985#25993#0" expanded="true" />
+            <element signature="e#14975#14983#0" expanded="true" />
+            <element signature="e#16093#16108#0" expanded="true" />
+            <element signature="e#16961#16969#0" expanded="true" />
+            <element signature="e#20349#20358#0" expanded="true" />
+            <element signature="e#22438#22453#0" expanded="true" />
+            <element signature="e#24362#24377#0" expanded="true" />
+            <element signature="e#25594#25602#0" expanded="true" />
+            <element signature="e#29030#29038#0" expanded="true" />
+            <element signature="e#30105#30120#0" expanded="true" />
+            <element signature="e#31981#31996#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -614,16 +594,19 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="82" column="11" selection-start="3883" selection-end="3883" vertical-scroll-proportion="0.0" vertical-offset="1394" max-vertical-offset="10744">
           <folding>
-            <element signature="e#0#30474#0" expanded="true" />
+            <element signature="e#0#32463#0" expanded="true" />
             <element signature="imports" expanded="true" />
             <element signature="e#9627#9642#0" expanded="true" />
-            <element signature="e#14994#15002#0" expanded="true" />
-            <element signature="e#16227#16242#0" expanded="true" />
-            <element signature="e#17095#17103#0" expanded="true" />
-            <element signature="e#20483#20492#0" expanded="true" />
-            <element signature="e#22588#22603#0" expanded="true" />
-            <element signature="e#24512#24527#0" expanded="true" />
-            <element signature="e#25985#25993#0" expanded="true" />
+            <element signature="e#14975#14983#0" expanded="true" />
+            <element signature="e#16093#16108#0" expanded="true" />
+            <element signature="e#16961#16969#0" expanded="true" />
+            <element signature="e#20349#20358#0" expanded="true" />
+            <element signature="e#22438#22453#0" expanded="true" />
+            <element signature="e#24362#24377#0" expanded="true" />
+            <element signature="e#25594#25602#0" expanded="true" />
+            <element signature="e#29030#29038#0" expanded="true" />
+            <element signature="e#30105#30120#0" expanded="true" />
+            <element signature="e#31981#31996#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -646,16 +629,19 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="10795">
           <folding>
-            <element signature="e#0#30474#0" expanded="true" />
+            <element signature="e#0#32463#0" expanded="true" />
             <element signature="imports" expanded="true" />
             <element signature="e#9627#9642#0" expanded="true" />
-            <element signature="e#14994#15002#0" expanded="true" />
-            <element signature="e#16227#16242#0" expanded="true" />
-            <element signature="e#17095#17103#0" expanded="true" />
-            <element signature="e#20483#20492#0" expanded="true" />
-            <element signature="e#22588#22603#0" expanded="true" />
-            <element signature="e#24512#24527#0" expanded="true" />
-            <element signature="e#25985#25993#0" expanded="true" />
+            <element signature="e#14975#14983#0" expanded="true" />
+            <element signature="e#16093#16108#0" expanded="true" />
+            <element signature="e#16961#16969#0" expanded="true" />
+            <element signature="e#20349#20358#0" expanded="true" />
+            <element signature="e#22438#22453#0" expanded="true" />
+            <element signature="e#24362#24377#0" expanded="true" />
+            <element signature="e#25594#25602#0" expanded="true" />
+            <element signature="e#29030#29038#0" expanded="true" />
+            <element signature="e#30105#30120#0" expanded="true" />
+            <element signature="e#31981#31996#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -678,16 +664,19 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="15" column="13" selection-start="489" selection-end="489" vertical-scroll-proportion="0.0" vertical-offset="255" max-vertical-offset="10744">
           <folding>
-            <element signature="e#0#30474#0" expanded="true" />
+            <element signature="e#0#32463#0" expanded="true" />
             <element signature="imports" expanded="true" />
             <element signature="e#9627#9642#0" expanded="true" />
-            <element signature="e#14994#15002#0" expanded="true" />
-            <element signature="e#16227#16242#0" expanded="true" />
-            <element signature="e#17095#17103#0" expanded="true" />
-            <element signature="e#20483#20492#0" expanded="true" />
-            <element signature="e#22588#22603#0" expanded="true" />
-            <element signature="e#24512#24527#0" expanded="true" />
-            <element signature="e#25985#25993#0" expanded="true" />
+            <element signature="e#14975#14983#0" expanded="true" />
+            <element signature="e#16093#16108#0" expanded="true" />
+            <element signature="e#16961#16969#0" expanded="true" />
+            <element signature="e#20349#20358#0" expanded="true" />
+            <element signature="e#22438#22453#0" expanded="true" />
+            <element signature="e#24362#24377#0" expanded="true" />
+            <element signature="e#25594#25602#0" expanded="true" />
+            <element signature="e#29030#29038#0" expanded="true" />
+            <element signature="e#30105#30120#0" expanded="true" />
+            <element signature="e#31981#31996#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -931,34 +920,37 @@
         <state line="1934" column="0" selection-start="73921" selection-end="73921" vertical-scroll-proportion="0.33257404" vertical-offset="32460" max-vertical-offset="50881" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/PhyloTree.java">
+    <entry file="file://$PROJECT_DIR$/src/PhyloTreeNode.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="4" selection-start="45" selection-end="45" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="476">
+        <state line="19" column="31" selection-start="0" selection-end="1866" vertical-scroll-proportion="0.0" vertical-offset="323" max-vertical-offset="1037">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/PhyloTreeNode.java">
+    <entry file="file://$PROJECT_DIR$/src/PhyloTree.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="31" selection-start="581" selection-end="581" vertical-scroll-proportion="0.0" vertical-offset="323" max-vertical-offset="1037">
+        <state line="13" column="32" selection-start="0" selection-end="591" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="476">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Sankoff.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="461" column="16" selection-start="20835" selection-end="20835" vertical-scroll-proportion="6.5276074" vertical-offset="3581" max-vertical-offset="12563">
+        <state line="731" column="43" selection-start="30798" selection-end="30798" vertical-scroll-proportion="-0.8802083" vertical-offset="12765" max-vertical-offset="13515">
           <folding>
-            <element signature="e#0#30474#0" expanded="true" />
+            <element signature="e#0#32463#0" expanded="true" />
             <element signature="imports" expanded="true" />
             <element signature="e#9627#9642#0" expanded="true" />
-            <element signature="e#14994#15002#0" expanded="true" />
-            <element signature="e#16227#16242#0" expanded="true" />
-            <element signature="e#17095#17103#0" expanded="true" />
-            <element signature="e#20483#20492#0" expanded="true" />
-            <element signature="e#22588#22603#0" expanded="true" />
-            <element signature="e#24512#24527#0" expanded="true" />
-            <element signature="e#25985#25993#0" expanded="true" />
+            <element signature="e#14975#14983#0" expanded="true" />
+            <element signature="e#16093#16108#0" expanded="true" />
+            <element signature="e#16961#16969#0" expanded="true" />
+            <element signature="e#20349#20358#0" expanded="true" />
+            <element signature="e#22438#22453#0" expanded="true" />
+            <element signature="e#24362#24377#0" expanded="true" />
+            <element signature="e#25594#25602#0" expanded="true" />
+            <element signature="e#29030#29038#0" expanded="true" />
+            <element signature="e#30105#30120#0" expanded="true" />
+            <element signature="e#31981#31996#0" expanded="true" />
           </folding>
         </state>
       </provider>
